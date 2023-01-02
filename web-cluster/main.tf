@@ -13,6 +13,7 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
+#
 resource "aws_launch_template" "example" {
   name                   = "std03-example"
   image_id               = "ami-06eea3cd85e2db8ce"
@@ -27,6 +28,7 @@ resource "aws_launch_template" "example" {
   }
 }
 
+#
 resource "aws_autoscaling_group" "example" {
   availability_zones = ["ap-northeast-2a", "ap-northeast-2c"]
   name               = "std03-terraform-asg-example"
@@ -50,13 +52,16 @@ resource "aws_autoscaling_group" "example" {
   }
 }
 
+#
 resource "aws_lb" "example" {
-  name              = "std03-terraform-asg-example"
+  name               = "std03-terraform-asg-example"
   load_balancer_type = "application"
-  subnets           = data.aws_subnets.default.ids
-  security_groups   = [aws_security_group.alb.id]
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.alb.id]
+
 }
 
+#
 resource "aws_lb_target_group" "asg" {
   name     = "std03-terraform-asg-example"
   port     = var.server_port
@@ -73,6 +78,7 @@ resource "aws_lb_target_group" "asg" {
   }
 }
 
+#
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
   port              = 80
@@ -89,6 +95,7 @@ resource "aws_lb_listener" "http" {
   }
 }
 
+#
 resource "aws_lb_listener_rule" "asg" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
@@ -105,6 +112,7 @@ resource "aws_lb_listener_rule" "asg" {
   }
 }
 
+#
 resource "aws_security_group" "instance" {
   name = var.security_group_name
 
@@ -117,7 +125,7 @@ resource "aws_security_group" "instance" {
 }
 
 
-
+#
 resource "aws_security_group" "alb" {
   name = "std03-terraform-example-alb"
 

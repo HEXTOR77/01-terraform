@@ -13,10 +13,11 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
+#
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "std03-terraform-state"
 
-
+  #
   #lifecycle {
   #prevent_destroy = true
   #}
@@ -31,6 +32,7 @@ resource "aws_s3_bucket_versioning" "terraform_versioning" {
     status = "Enabled"
   }
 }
+#
 resource "aws_s3_bucket_server_side_encryption_configuration" "terraform-encryption" {
   bucket = aws_s3_bucket.terraform_state.bucket
 
@@ -43,6 +45,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform-encrypt
 
 
 
+#
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "std03-terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
@@ -53,17 +56,3 @@ resource "aws_dynamodb_table" "terraform_locks" {
     type = "S"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
